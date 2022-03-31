@@ -1,7 +1,10 @@
 
 import tweepy
 import pandas as pd
+from dotenv import load_dotenv, find_dotenv
 import os
+
+load_dotenv(find_dotenv())
 
 def getTweets():
 
@@ -10,11 +13,12 @@ def getTweets():
     print("connecting to twitter...")
     client = tweepy.Client(os.environ.get('BEARER'))
 
-
+    
     tweet_fields=['attachments','author_id','context_annotations','created_at','entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive','public_metrics','referenced_tweets','source','text','withheld']
     expansions='referenced_tweets.id'
     print("searching for tweets with hashtag: " + query)
-    tweets = tweepy.Paginator(client.search_recent_tweets, query=query, start_time = start_time,tweet_fields = ['attachments','author_id','context_annotations','created_at','entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive','public_metrics','referenced_tweets','source','text','withheld'], expansions = expansions).flatten(limit=2)
+    tweets = ""
+    tweets = tweepy.Paginator(client.search_recent_tweets, query=query, start_time = start_time,tweet_fields = ['attachments','author_id','context_annotations','created_at','entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive','public_metrics','referenced_tweets','source','text','withheld'], expansions = expansions).flatten(limit=100)
     print("search complete")
     return tweets
 
@@ -63,3 +67,4 @@ if __name__ == '__main__':
     tweets = getTweets()
     tweetsToDF(tweets)
     print("program complete")
+
