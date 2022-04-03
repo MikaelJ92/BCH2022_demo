@@ -178,3 +178,4 @@ test.csv
 .db
 testing.py
 tweets.csv
+csv2db.py

@@ -10,12 +10,14 @@ def stop(session):
     session.commit()
     session.close()
 
-#def insert(text, created_at, lang, source, retweet_count, like_count, quote_count, session):
-#    session.add(Tweet(text = text, created_at = created_at, lang = lang, source = source, retweet_count = retweet_count, like_count = like_count, quote_count = quote_count))
 
-def insert(data_fr):
-    Tweet.add2db(data_fr)  
+def insert(id, text, created_at, lang, source, retweets, likes, quotes, session):
 
+    session.add(Tweet(id= id, text = text, created_at = created_at,
+                lang = lang, source = source, retweets = retweets, likes = likes,
+                quotes = quotes))
+
+    
 
 def get_tweets():
     session = Session()
@@ -34,6 +36,3 @@ def get_tweets_by_time():
     tweets = session.query(Tweet).order_by(Tweet.created_at.desc())
 
     return tweets
-
-
-#text, created_at, lang, source, retweet_count, like_count, quote_count
