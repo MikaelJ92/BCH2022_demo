@@ -19,8 +19,21 @@ def insert(data_fr):
 
 def get_tweets():
     session = Session()
-    tweets = session.query(Tweet).limit(1000).all()
+    tweets = session.query(Tweet).all()
 
     return tweets
+
+def get_top10_tweets_by_likes():
+    session = Session()
+    tweets = session.query(Tweet).order_by(Tweet.likes.desc()).limit(10)
+
+    return tweets
+
+def get_tweets_by_time():
+    session = Session()
+    tweets = session.query(Tweet).order_by(Tweet.created_at.desc())
+
+    return tweets
+
 
 #text, created_at, lang, source, retweet_count, like_count, quote_count

@@ -20,7 +20,8 @@ class Tweet(Base):
     quotes = Column(Integer)
 
     def __repr__(self):
-        return "<Tweet(text='%s', created_at='%s', lang='%s', source='%s', retweets='%s', likes='%s', quotes='%s')>" % (self.text, self.created_at, self.lang, self.source, self.retweets, self.likes, self.quotes)
+        return "text='%s'; created_at='%s'; lang='%s'; source='%s'; retweets='%s'; likes='%s'; quotes='%s'" % (self.text, self.created_at, self.lang, self.source, self.retweets, self.likes, self.quotes)
+        #return "%s;%s;%s;%s;%s;%s;%s" % (self.text, self.created_at, self.lang, self.source, self.retweets, self.likes, self.quotes)
 
     def add2db(data_df):
 
@@ -30,6 +31,6 @@ class Tweet(Base):
             if_exists ='append',
             index = True,
             chunksize = 100,
-            dtype = {'text' : Text,'created_at' : DateTime, 'lang' : String(5), 'source' : Text, 'retweet_count' : Integer,'like_count' : Integer,'quote_count' : Integer})
+            dtype = {'text' : Text,'created_at' : DateTime, 'lang' : String(5), 'source' : Text, 'retweets' : Integer,'likes' : Integer,'quotes' : Integer})
 
     

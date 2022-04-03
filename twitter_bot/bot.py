@@ -3,10 +3,11 @@ import tweepy
 import pandas as pd
 from dotenv import load_dotenv, find_dotenv
 import os
+from db.data import insert, start, stop, insert
 
 load_dotenv(find_dotenv())
 
-def getTweets():
+def get_tweets_from_twitter():
 
     query = '#Ukraine'
     start_time = '2022-03-30T00:00:01Z'
@@ -22,7 +23,7 @@ def getTweets():
     print("search complete")
     return tweets
 
-def tweetsToDF(tweets):
+def tweets_to_df(tweets):
 
     list_tweets = [tweet for tweet in tweets]
     #i = 1 
@@ -34,16 +35,16 @@ def tweetsToDF(tweets):
         #'hashtags',
         'lang',
         'source',
-        'retweet_count',
-        'reply_count',
-        'like_count',
-        'quote_count',
+        'retweets',
+        'replies',
+        'likes',
+        'quotes',
 
     ])
 
     for tweet in list_tweets:
         
-        
+        print(tweet)
         text = tweet.text
         created_at = tweet.created_at
         #hashtags = tweet.entities['hastags']
@@ -58,13 +59,18 @@ def tweetsToDF(tweets):
         ith_tweet = [text, created_at, lang, source, retweets, replies, likes, quotes]
 
         df.loc[len(df)] = ith_tweet
+    
     print("inserting data to file")        
-    df.to_csv('test.csv',encoding='utf-8')
+    df.to_csv('tweets.csv',encoding='utf-8')
+    session = start()
+    insert(df)
+    stop(session)
+    
 
 
 if __name__ == '__main__':
     print("getting program")
-    tweets = getTweets()
-    tweetsToDF(tweets)
+    tweets = get_tweets_from_twitter()
+    tweets_to_df(tweets)
     print("program complete")
 
