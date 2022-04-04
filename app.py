@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for
 from db.data import get_tweets, get_top10_tweets_by_likes, get_tweets_by_time, insert, start, stop
 from api import generate_json
 from twitter_bot.bot import get_tweets_from_twitter, tweets_to_df
@@ -9,6 +9,16 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return '<h1>Hello World!</h1>'
+
+app.route("/all_links")
+def all_links():
+    links = []
+    for rule in app.url_map_iter_rules():
+        if len(rule.defaults) >= len(rule.arguments):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append((url, rule.endpoint))
+    
+    print(links)
 
 @app.route('/api/all')
 def all_tweets():
