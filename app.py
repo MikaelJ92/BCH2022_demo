@@ -6,19 +6,33 @@ from twitter_bot.bot import get_tweets_from_twitter, tweets_to_df
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return '<h1>Hello World!</h1>'
+#@app.route('/')
+#def index():
+#    return '<h1>Hello World!</h1>'
 
-app.route("/all_links")
-def all_links():
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+
+@app.route("/")
+def site_map():
     links = []
-    for rule in app.url_map_iter_rules():
-        if len(rule.defaults) >= len(rule.arguments):
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
             links.append((url, rule.endpoint))
     
-    print(links)
+    html = "<ul>"
+    for url, endpoint in links:
+        html += "<li><a href="+url+">"+endpoint+"</a></li>"
+    html += "</ul>"
+    return html
+    # links is now a list of url, endpoint tuples    
+# https://stackoverflow.com/questions/13151161/display-links-to-new-webpages-created/13161594#13161594
 
 @app.route('/api/all')
 def all_tweets():
