@@ -8,7 +8,7 @@ load_dotenv(find_dotenv())
 def get_tweets_from_twitter():
 
     query = '#Ukraine'
-    #start_time = '2022-03-30T00:00:01Z'
+    start_time = '2022-03-30T00:00:01Z'
     print("connecting to twitter...")
     client = tweepy.Client(os.environ.get('BEARER'))
 
@@ -17,7 +17,15 @@ def get_tweets_from_twitter():
     expansions='referenced_tweets.id'
     print("searching for tweets with hashtag: " + query)
     tweets = ""
-    tweets = tweepy.Paginator(client.search_recent_tweets, query=query,''' start_time = start_time,'''tweet_fields = ['attachments','author_id','context_annotations','created_at','entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive','public_metrics','referenced_tweets','source','text','withheld'], expansions = expansions)#.flatten(limit=5000)
+    tweets = tweepy.Paginator(client.search_recent_tweets,
+                              query=query,
+                              #start_time = start_time,
+                              tweet_fields = [
+                                  'attachments','author_id','context_annotations','created_at',
+                                  'entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive',
+                                  'public_metrics','referenced_tweets','source','text','withheld'
+                              ],
+                              expansions = expansions).flatten(limit=5000)
     print("search complete")
     return tweets
 
