@@ -9,6 +9,7 @@ def get_tweets_from_twitter():
 
     query = '#Ukraine'
     start_time = '2022-03-30T00:00:01Z'
+    limit = 500
     print("connecting to twitter...")
     client = tweepy.Client(os.environ.get('BEARER'))
 
@@ -25,7 +26,7 @@ def get_tweets_from_twitter():
                                   'entities','geo','id','in_reply_to_user_id','lang','possibly_sensitive',
                                   'public_metrics','referenced_tweets','source','text','withheld'
                               ],
-                              expansions = expansions).flatten(limit=5000)
+                              expansions = expansions).flatten(limit=limit)
     print("search complete")
     return tweets
 
