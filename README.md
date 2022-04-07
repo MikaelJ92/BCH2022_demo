@@ -1,10 +1,10 @@
 # BCH2022_demo
 
 ## About
-This is a demo project for Code Bootcamp Häme 2022. The goal for this project was to build a demo website with Python and explore the deployment process of web applications. The project contains three main parts:
- - a script/bot that gets recent tweets from twitter with given hashtag.
+This is a demo project for Code Bootcamp Häme 2022. The goal for this project was to build a database api website with Python and explore the deployment process of web applications. The project contains three main parts:
+ - a script/bot that gets recent tweets from twitter.
  - Backend done with Python's Flask
- - And simple frontend
+ - list of available api urls
 
 
 ## Installation
